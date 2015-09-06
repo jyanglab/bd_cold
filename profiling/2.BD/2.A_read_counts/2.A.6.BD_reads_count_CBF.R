@@ -2,7 +2,7 @@
 ## 8.11.2014
 ##
 
-ob <- load("~/Documents/BDproj/cache/count.RData")
+ob <- load("~/Documents/Github/BDproj/cache/count.RData")
 
 
 countDF1["Bradi4g35650", 1:6] <- cbf[,4:9]
@@ -38,7 +38,7 @@ plot(cbf)
 tbcbf <- data.frame(cbf, cov, )
 
 ### manually changed the format
-cbf <- read.csv("~/Documents/BDproj/reports/cbf_rc.csv")
+cbf <- read.csv("~/Documents/Github/BDproj/reports/cbf_rc.csv")
 cbf <- cbf[1:4,]
 
 t.test(cbf[1,2:4], cbf[2, 2:4])
