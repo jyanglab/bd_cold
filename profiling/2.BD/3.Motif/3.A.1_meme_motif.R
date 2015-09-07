@@ -16,7 +16,7 @@ system("fimo --oc fimo_output_files --parse-genomic-coord cbf.meme Bdistachyon_1
 
 motif <- read.table("largedata/fimo_output_files/fimo.txt", header=FALSE)
 motif <- subset(motif, V2 %in% c("Bd1", "Bd2", "Bd3", "Bd4", "Bd5"))
-
+#39231
 
 gff <- read.table("largedata/annot_v1.2/Bdistachyon_192_gene_exons.gff3", header=FALSE)
 names(gff) <- c("seqname", "source", "feature", "start", "end", "score",
@@ -54,9 +54,10 @@ find_reg <- function(BP=5000, gene, motif){
 }
 #########
 gene_reg <- find_reg(BP=5000, gene, motif)
+write.table(gene_reg, "data/gene_motif.csv", sep=",", row.names=FALSE, quote=FALSE)
 
-
-
+sum(gene_reg$CRT >0)
+#13385
 
 
 plot(cbf8$V2, cbf8$V3)
