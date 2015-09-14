@@ -2,21 +2,24 @@
 ### 9/4/2015
 
 #http://floresta.eead.csic.es/footprintdb/index.php?tf=25f213b64bbd2f3012ccb61060dd270c
-AykrCCGACmT
-
+AykrCCGACmT #cbf1,2
+TACTrCCGACAtGA #CBF3
 ### Motif Conversion Utilities
 # largedata
-system("iupac2meme -named RCCGAC cbf > cbf_core.meme")
+system("iupac2meme -named AykrCCGACmT cbf > cbf_core.meme")
+system("iupac2meme -named TACTrCCGACAtGA cbf3 > cbf3.meme")
+
 
 ###
-system("fimo --oc fimo_core_files --parse-genomic-coord cbf_core.meme Bdistachyon_192.fa")
+system("fimo --oc cbf3_files --parse-genomic-coord cbf3.meme Bdistachyon_192.fa")
 
 
 #########################################
-
-motif <- read.table("largedata/fimo_output_files/fimo.txt", header=FALSE)
+motif12 <- read.table("largedata/fimo_output_files/fimo.txt", header=FALSE)
+motif3 <- read.table("largedata/cbf3_files/fimo.txt", header=FALSE)
+motif <- rbind(motif12, motif3)
 motif <- subset(motif, V2 %in% c("Bd1", "Bd2", "Bd3", "Bd4", "Bd5"))
-#39231
+#38780
 
 gff <- read.table("largedata/annot_v1.2/Bdistachyon_192_gene_exons.gff3", header=FALSE)
 names(gff) <- c("seqname", "source", "feature", "start", "end", "score",
@@ -29,13 +32,28 @@ cbf <- c("Bradi4g35630", "Bradi4g35650","Bradi4g35570", "Bradi4g35580",
 
 cbfgene <- subset(gene, attribute %in% cbf)
 
-cbf8 <- read.csv("data/CBF_8genes_bed.csv", header=FALSE)
-
-r <- range(c(cbf8$V2, cbf8$V3))
-subset(motif, V2 == "Bd4" & V3 > r[1]-5000 & V4 < r[2]+10000)
+r <- range(c(cbfgene$start, cbfgene$end))
 
 
 
+find_gene_motif <- function(motif, cbfgene, upstream=7000){
+    for(i in 1:6){
+        tem <- subset(motif, V2 == "Bd4" & V3 > cbfgene$start[i]- upstream & V4 < cbfgene$start[i])
+        print(sprintf("###>>> gene [ %s ] contains [ %s ] motif", cbfgene$attribute[i], nrow(tem)))
+    }
+    for(i in 7:8){
+        tem <- subset(motif, V2 == "Bd4" & V3 > cbfgene$end[i] & V4 < cbfgene$end[i] + upstream)
+        print(sprintf("###>>> gene [ %s ] contains [ %s ] motif", cbfgene$attribute[i], nrow(tem)))
+    }
+}
+
+#### CBF3 motif
+find_gene_motif(motif3, cbfgene, upstream=7000)
+
+find_gene_motif(motif12, cbfgene, upstream=7000)
+
+
+###########
 find_reg <- function(BP=5000, gene, motif){
     gene$seqname <- as.character(gene$seqname)
     gene$CRT <- 0

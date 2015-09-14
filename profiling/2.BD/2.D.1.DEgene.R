@@ -2,13 +2,13 @@
 ## 8.11.2014
 ## Using DESeq to analyze differentially expressed genes
 
-ob <- load("~/Documents/BDproj/cache/count.RData")
+ob <- load("~/Documents/Github/BDproj/cache/count.RData")
 #Raw count data are expected here!
 library(DESeq2)
 
 
 #countDF <- read.table("./results/countDF")
-targets <- read.csv("~/Documents/BDproj/data/target.csv")
+targets <- read.csv("~/Documents/Github/BDproj/data/target.csv")
 tgs1 <- tgs2 <- targets
 tgs1$Rep <- "Rep1"
 tgs2$Rep <- "Rep2"
