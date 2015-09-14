@@ -11,7 +11,8 @@ system("iupac2meme -named TACTrCCGACAtGA cbf3 > cbf3.meme")
 
 
 ###
-system("fimo --oc fimo_core_files --parse-genomic-coord cbf_core.meme Bdistachyon_192.fa")
+system("fimo --oc fimo_core_files --max-stored-scores 10000 --no-qvalue --parse-genomic-coord cbf_core.meme Bdistachyon_192.fa ")
+#?mast
 
 
 #########################################
