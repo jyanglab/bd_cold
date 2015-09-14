@@ -6,12 +6,12 @@ AykrCCGACmT #cbf1,2
 TACTrCCGACAtGA #CBF3
 ### Motif Conversion Utilities
 # largedata
-system("iupac2meme -named AykrCCGACmT cbf > cbf_core.meme")
+system("iupac2meme -named GCCGAC cbf > cbf_core.meme")
 system("iupac2meme -named TACTrCCGACAtGA cbf3 > cbf3.meme")
 
 
 ###
-system("fimo --oc cbf3_files --parse-genomic-coord cbf3.meme Bdistachyon_192.fa")
+system("fimo --oc fimo_core_files --parse-genomic-coord cbf_core.meme Bdistachyon_192.fa")
 
 
 #########################################
