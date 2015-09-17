@@ -6,13 +6,15 @@ AykrCCGACmT #cbf1,2
 TACTrCCGACAtGA #CBF3
 ### Motif Conversion Utilities
 # largedata
-system("iupac2meme -named GCCGAC cbf > cbf_core.meme")
+system("iupac2meme -named rCCGAC cbf > cbf_core.meme")
 system("iupac2meme -named TACTrCCGACAtGA cbf3 > cbf3.meme")
 
 
 ###
 system("fimo --oc fimo_core_files --max-stored-scores 10000 --no-qvalue --parse-genomic-coord cbf_core.meme Bdistachyon_192.fa ")
 #?mast
+
+system("mast cbf_core.meme Bdistachyon_192.fa -oc mast_core_files -nohtml -comp")
 
 
 #########################################
@@ -21,6 +23,12 @@ motif3 <- read.table("largedata/cbf3_files/fimo.txt", header=FALSE)
 motif <- rbind(motif12, motif3)
 motif <- subset(motif, V2 %in% c("Bd1", "Bd2", "Bd3", "Bd4", "Bd5"))
 #38780
+motif$bin1 <- paste(motif$V2, round(motif$V3/10, 0), sep="_")
+motif$bin2 <- paste(motif$V2, round(motif$V4/10, 0), sep="_")
+motif <- motif[!duplicated(motif$bin1), ]
+motif <- motif[!duplicated(motif$bin2), ]
+write.table(motif[, 1:9], "data/core_motif.csv", sep=",", row.names=FALSE, quote=FALSE)
+
 
 gff <- read.table("largedata/annot_v1.2/Bdistachyon_192_gene_exons.gff3", header=FALSE)
 names(gff) <- c("seqname", "source", "feature", "start", "end", "score",
@@ -72,12 +80,26 @@ find_reg <- function(BP=5000, gene, motif){
     return(gene)
 }
 #########
-gene_reg <- find_reg(BP=5000, gene, motif)
-write.table(gene_reg, "data/gene_motif.csv", sep=",", row.names=FALSE, quote=FALSE)
+motif3 <- read.table("largedata/cbf3_files/fimo.txt", header=FALSE)
+gene_reg <- find_reg(BP=5000, gene, motif3)
+write.table(gene_reg, "data/gene_with_motif.csv", sep=",", row.names=FALSE, quote=FALSE)
 
 sum(gene_reg$CRT >0)
 #13385
 
-
 plot(cbf8$V2, cbf8$V3)
 
+gm <- read.csv("data/gene_motif.csv")
+names(gm)[10] <- "motif"
+gm$motif <- as.numeric(as.character(gm$motif))
+write.table(subset(gm, motif > 0), "data/Table_gene_with_motif.csv", sep=",", row.names=FALSE, quote=FALSE)
+
+cbf <- read.delim("data/Table_S4_cbf_cbf4_2839.txt", header=TRUE)
+wt <- read.delim("data/Table_S3_wt_wt4_3213.txt", header=TRUE)
+cbf$ID <- gsub("\\..*", "", cbf$IDENTIFIER)
+wt$ID <- gsub("\\..*", "", wt$IDENTIFIER)
+
+gm$attribute <- tolower(gm$attribute)
+
+sum(gm$attribute %in% cbf$ID)
+sum(gm$attribute %in% wt$ID)
