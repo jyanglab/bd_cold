@@ -1,0 +1,8 @@
+---
+title: "Figure Legend"
+author: "Jinliang Yang"
+date: "September 20, 2015"
+output: word_document
+---
+
+**Figure**: Validation levels of expression of RNA-seq detected DE genes using qPCR. **(a)** The relative gene expression of the ten selected genes in 4 °C and 23 °C. X gene was used as control in both temperatures. **(b)** The RPKM values of the same set of selected genes in 4 °C and 23 °C.

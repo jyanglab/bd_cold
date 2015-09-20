@@ -46,14 +46,25 @@ r <- range(c(cbfgene$start, cbfgene$end))
 
 
 find_gene_motif <- function(motif, cbfgene, upstream=7000){
+    
+    res <- data.frame()
     for(i in 1:6){
         tem <- subset(motif, V2 == "Bd4" & V3 > cbfgene$start[i]- upstream & V4 < cbfgene$start[i])
         print(sprintf("###>>> gene [ %s ] contains [ %s ] motif", cbfgene$attribute[i], nrow(tem)))
+        if(nrow(tem)>0){
+            tem$gene <- cbfgene$attribute[i]
+            res <- rbind(res, tem)
+        }
     }
     for(i in 7:8){
         tem <- subset(motif, V2 == "Bd4" & V3 > cbfgene$end[i] & V4 < cbfgene$end[i] + upstream)
         print(sprintf("###>>> gene [ %s ] contains [ %s ] motif", cbfgene$attribute[i], nrow(tem)))
+        if(nrow(tem)>0){
+            tem$gene <- cbfgene$attribute[i]
+            res <- rbind(res, tem)
+        }
     }
+    return(res)
 }
 
 #### CBF3 motif
@@ -61,7 +72,9 @@ find_gene_motif(motif3, cbfgene, upstream=7000)
 
 find_gene_motif(motif12, cbfgene, upstream=7000)
 
-
+out <- find_gene_motif(motif, cbfgene, upstream=7000)
+names(out) <- c("type", "chr", "start", "end", "strand", "value", "p", "cp", "seq", "gene")
+write.table(out[, -8], "reports/motifs_in_cbfgene.csv", sep=",", row.names=FALSE, quote=FALSE)
 ###########
 find_reg <- function(BP=5000, gene, motif){
     gene$seqname <- as.character(gene$seqname)
