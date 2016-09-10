@@ -3,3 +3,4 @@
 .RData
 largedata/*
 cache/*
+.DS_Store
