@@ -40,7 +40,7 @@ setup_pipe <- function(sh="my_program.sh",
       paste("samtools view -bS", uniq, ">", bam, sep=" "),
       #CREATING A BAM INDEX FILE
       #samtools sort Bri_pro_uniq.bam Bri_pro_uniq.sorted
-      paste("samtools sort ", bam, " ", idbase, ".sorted", sep=""),
+      paste("samtools sort ", bam, " -o ", idbase, ".sorted.bam", sep=""),
       #samtools index Bri_pro_uniq.sorted.bam Bri_pro_uniq.sorted.bam.bai
       paste("samtools index ", idbase, ".sorted.bam ", idbase, ".sorted.bam.bai", sep=""),
       "",
