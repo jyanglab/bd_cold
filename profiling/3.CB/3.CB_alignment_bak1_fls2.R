@@ -22,7 +22,6 @@ samtools sort CB_bak1_fls2_uniq.bam CB_bak1_fls2_uniq_sorted
 samtools index CB_bak1_fls2_uniq_sorted.bam CB_bak1_fls2_uniq_sorted.bam.bai
 
 
-
 ############################################################################################################
 ## RUN de novo assembly
 Trinity.pl --seqType fq --JM 10G --single  --CPU 6
