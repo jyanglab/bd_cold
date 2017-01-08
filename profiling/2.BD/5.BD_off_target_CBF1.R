@@ -51,3 +51,4 @@ myres <- subset(output, gene != "Bradi4g35630.1")
 
 out <- data.frame(table(myres$gene))
 t <- subset(out, Freq > 0)
+write.table(t, "data/output.csv", sep=",", row.names=FALSE, quote=FALSE)
