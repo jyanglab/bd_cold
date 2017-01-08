@@ -5,7 +5,7 @@
 
 library("Biostrings")
 
-fa <- readDNAStringSet(filepath = "data/RNAi_CBF1_Target.fa", format="fasta")
+fa <- readDNAStringSet(filepath = "data/RNAi_CBF3_Target.fa", format="fasta")
 class(fa)
 length(fa[[1]])
 width(fa)
@@ -20,7 +20,7 @@ for(i in 1:(width(fa)-18)){
    out <- rbind(out, d)
 }
 
-write.table(out, "data/RNAi_CBF1_19bp.txt", sep="\t", row.names=FALSE, col.names=FALSE, quote=FALSE)
+write.table(out, "data/RNAi_CBF3_19bp.txt", sep="\t", row.names=FALSE, col.names=FALSE, quote=FALSE)
 
 #########################
 
@@ -44,10 +44,10 @@ ds_off_target <- function(target=fa, genome=cds){
 cds <- readDNAStringSet(filepath = "largedata/Bradi_1.0.cds.fa.gz", format="fasta")
 length(cds)
 # [1] 32255
-fa <- readDNAStringSet(filepath = "data/RNAi_CBF1_Target.fa", format="fasta")
+fa <- readDNAStringSet(filepath = "data/RNAi_CBF3_Target.fa", format="fasta")
 
 output <- ds_off_target(target=fa, genome=cds)
-myres <- subset(output, gene != "Bradi4g35630.1")
+myres <- subset(output, gene != "Bradi4g35650.1")
 
 out <- data.frame(table(myres$gene))
-t <- subset(out, Freq > 0)
+subset(out, Freq > 0)
